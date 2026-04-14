@@ -171,6 +171,31 @@
     </div>
 </section>
 
+<div style="background:white; border-top:1px solid rgba(184,134,11,0.15);
+            border-bottom:1px solid rgba(184,134,11,0.15); padding:0.875rem 1rem;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div style="display:flex; align-items:center; justify-content:center;
+                    gap:1rem; flex-wrap:wrap;">
+            <span style="font-size:0.875rem; color:#6B7280;">
+                📦 Already placed an order?
+            </span>
+            <a href="{{ route('order.track') }}"
+               style="display:inline-flex; align-items:center; gap:0.5rem;
+                      padding:0.5rem 1.25rem; border-radius:9999px;
+                      font-size:0.8125rem; font-weight:700; text-decoration:none;
+                      color:#B8860B; border:1.5px solid #B8860B;
+                      transition:all 0.2s ease; background:rgba(184,134,11,0.04);"
+               onmouseover="this.style.background='linear-gradient(135deg,#7B5A00,#D4A017)';
+                            this.style.color='white';
+                            this.style.borderColor='transparent'"
+               onmouseout="this.style.background='rgba(184,134,11,0.04)';
+                           this.style.color='#B8860B';
+                           this.style.borderColor='#B8860B'">
+                🔍 Track Your Order
+            </a>
+        </div>
+    </div>
+</div>
 
 {{-- ═══════════════════════════════════════════
      FEATURED CATEGORIES

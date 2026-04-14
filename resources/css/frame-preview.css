@@ -1,0 +1,46 @@
+/* ════════════════════════════════════════════════════════
+   frame-preview.css
+   pk-photography → public/css/frame-preview.css
+════════════════════════════════════════════════════════ */
+
+/* ── Wrapper cursor states ────────────────────────────── */
+#frame-wrapper {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#frame-wrapper:active {
+    cursor: grabbing;
+}
+
+/* ── Zoom bar layout ──────────────────────────────────── */
+#frame-zoom-bar {
+    display: flex;          /* flex is toggled via JS (none → flex) */
+}
+
+#frame-zoom-bar button {
+    transition: background 0.15s ease;
+}
+
+#frame-zoom-bar button:hover {
+    background: #e0e0e0 !important;
+}
+
+#zoom-slider {
+    flex: 1;
+    accent-color: #B8860B;
+    cursor: pointer;
+}
+
+/* ── Drag hint toast ─────────────────────────────────── */
+#frame-hint.show {
+    opacity: 1 !important;
+}
+
+/* ── Responsive: shrink frame on small screens ───────── */
+@media (max-width: 480px) {
+    #frame-zoom-bar {
+        max-width: 300px !important;
+    }
+}

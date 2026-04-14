@@ -229,6 +229,17 @@
                             WhatsApp Us
                         </a>
                     </li>
+                    <li>
+    <a href="{{ route('order.track') }}"
+       class="text-gray-400 text-sm flex items-center gap-2 transition-colors duration-200"
+       style="text-decoration:none;"
+       onmouseover="this.style.color='#D4A017'"
+       onmouseout="this.style.color=''">
+        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0"
+              style="background:#B8860B;"></span>
+        🔍 Track Order
+    </a>
+</li>
                 </ul>
             </div>
         </div>

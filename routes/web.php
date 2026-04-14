@@ -15,14 +15,11 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerUploadController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 
-// ═══════════════════════════════════════════════════
-// ✅ PUBLIC ROUTES — NO AUTH REQUIRED
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// ✅ PUBLIC ROUTES
+// ═══════════════════════════════════════════
 
-// Home
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Pages
+Route::get('/',            [HomeController::class, 'index'])->name('home');
 Route::get('/about',       [HomeController::class, 'about'])->name('about');
 Route::get('/services',    [HomeController::class, 'services'])->name('services');
 Route::get('/pre-wedding', [HomeController::class, 'preWedding'])->name('pre-wedding');
@@ -33,35 +30,38 @@ Route::post('/contact',    [HomeController::class, 'sendContact'])->name('contac
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 
 // Shop
-Route::get('/shop',         [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop/{slug}',  [ShopController::class, 'show'])->name('shop.show');
+Route::get('/shop',        [ShopController::class, 'index'])->name('shop.index');
+Route::get('/shop/{slug}', [ShopController::class, 'show'])->name('shop.show');
 
 // Cart
-Route::get('/cart',                     [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add',                [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{rowId}',    [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{rowId}',   [CartController::class, 'remove'])->name('cart.remove');
-Route::delete('/cart/clear',            [CartController::class, 'clear'])->name('cart.clear');
+Route::get('/cart',                   [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add',              [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{rowId}',  [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/clear',          [CartController::class, 'clear'])->name('cart.clear');
 
-// Checkout & Orders
-Route::get('/checkout',              [OrderController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/place',       [OrderController::class, 'place'])->name('checkout.place');
-Route::get('/checkout/whatsapp/{order}', [OrderController::class, 'whatsapp'])->name('checkout.whatsapp');
-Route::get('/checkout/success/{order}',  [OrderController::class, 'success'])->name('checkout.success');
+// Checkout
+Route::get('/checkout',                   [OrderController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/place',            [OrderController::class, 'place'])->name('checkout.place');
+Route::get('/checkout/whatsapp/{order}',  [OrderController::class, 'whatsapp'])->name('checkout.whatsapp');
+Route::get('/checkout/success/{order}',   [OrderController::class, 'success'])->name('checkout.success');
 
-// ═══════════════════════════════════════════════════
-// ✅ AUTH ROUTES (Login/Logout Only)
-// ═══════════════════════════════════════════════════
-Route::get('/login',  [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/logout',[App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// ✅ ORDER TRACKING — ADD THESE
+Route::get('/track-order',         [OrderController::class, 'trackForm'])->name('order.track');
+Route::post('/track-order/search', [OrderController::class, 'trackResult'])->name('order.track.result');
 
-// ═══════════════════════════════════════════════════
-// ✅ ADMIN ROUTES — AUTH REQUIRED
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// ✅ AUTH ROUTES
+// ═══════════════════════════════════════════
+Route::get('/login',   [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login',  [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+// ═══════════════════════════════════════════
+// ✅ ADMIN ROUTES
+// ═══════════════════════════════════════════
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
-    // Dashboard
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Hero Images
@@ -87,8 +87,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Gallery
     Route::resource('gallery', AdminGalleryController::class);
 
-    // Customer Uploads
-    Route::get('uploads',                    [CustomerUploadController::class, 'index'])->name('uploads.index');
-    Route::delete('uploads/{upload}',        [CustomerUploadController::class, 'destroy'])->name('uploads.destroy');
-    Route::patch('uploads/{upload}/status',  [CustomerUploadController::class, 'updateStatus'])->name('uploads.status');
+    // Uploads
+    Route::get('uploads',                   [CustomerUploadController::class, 'index'])->name('uploads.index');
+    Route::delete('uploads/{upload}',       [CustomerUploadController::class, 'destroy'])->name('uploads.destroy');
+    Route::patch('uploads/{upload}/status', [CustomerUploadController::class, 'updateStatus'])->name('uploads.status');
 });

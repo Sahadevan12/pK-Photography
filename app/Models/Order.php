@@ -1,14 +1,11 @@
 <?php
-// app/Models/Order.php
+// app/Models/Order.php — Add this method
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'order_number', 'customer_name', 'customer_phone', 'customer_email',
         'customer_address', 'city', 'pincode', 'subtotal', 'discount',
@@ -20,21 +17,14 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    // ✅ Generate unique readable Order ID
     public static function generateOrderNumber(): string
     {
-        return 'PK' . strtoupper(uniqid());
-    }
+        do {
+            // Format: PK-2024-XXXXX
+            $number = 'PK' . date('Y') . strtoupper(substr(uniqid(), -5));
+        } while (self::where('order_number', $number)->exists());
 
-    public function getStatusBadgeAttribute(): string
-    {
-        return match($this->status) {
-            'pending'    => 'bg-yellow-100 text-yellow-700',
-            'confirmed'  => 'bg-blue-100 text-blue-700',
-            'processing' => 'bg-purple-100 text-purple-700',
-            'shipped'    => 'bg-indigo-100 text-indigo-700',
-            'delivered'  => 'bg-green-100 text-green-700',
-            'cancelled'  => 'bg-red-100 text-red-700',
-            default      => 'bg-gray-100 text-gray-700',
-        };
+        return $number;
     }
 }
