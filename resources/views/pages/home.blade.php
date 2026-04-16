@@ -197,6 +197,82 @@
     </div>
 </div>
 
+
+{{-- ═══════════════════════════════════════════
+     SERVICES SECTION
+═══════════════════════════════════════════ --}}
+<section class="py-24" style="background: linear-gradient(135deg, #F8FAFC, #FFF8E7, #F8FAFC);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color:#B8860B;">What We Do</p>
+            <h2 class="section-title">Our Photography Services</h2>
+            <div class="gold-divider"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach([
+                [
+                    'icon' => '💍', 
+                    'title' => 'Wedding Photography', 
+                    'desc' => 'Complete wedding day coverage capturing every precious moment from ceremony to reception.',
+                    'features' => ['Full day coverage', 'Edited HD photos', 'Online gallery']
+                ],
+                [
+                    'icon' => '👫', 
+                    'title' => 'Pre-Wedding Shoots', 
+                    'desc' => 'Romantic pre-wedding sessions at stunning locations to tell your love story.',
+                    'features' => ['Custom locations', '2-3 hour session', 'Multiple outfits']
+                ],
+                [
+                    'icon' => '👨‍👩‍👧', 
+                    'title' => 'Portrait Sessions', 
+                    'desc' => 'Professional portrait photography for individuals, couples, and families.',
+                    'features' => ['Studio & outdoor', 'Professional lighting', 'Quick delivery']
+                ],
+                [
+                    'icon' => '🎭', 
+                    'title' => 'Event Photography', 
+                    'desc' => 'Capturing corporate events, birthdays, and special celebrations beautifully.',
+                    'features' => ['All event types', 'Candid shots', 'Fast turnaround']
+                ],
+                [
+                    'icon' => '🎬', 
+                    'title' => 'Videography', 
+                    'desc' => 'Cinematic wedding films and event videos that you will treasure forever.',
+                    'features' => ['4K video', 'Drone footage', 'Professional editing']
+                ],
+                [
+                    'icon' => '🖼️', 
+                    'title' => 'Photo Products', 
+                    'desc' => 'Premium photo frames, mugs, and personalized gifts with your memories.',
+                    'features' => ['Custom printing', 'Premium quality', 'Gift packaging']
+                ],
+            ] as $service)
+                <div class="bg-white rounded-2xl p-8 shadow-md card-hover border border-gray-100 group">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform duration-300 group-hover:scale-110"
+                         style="background: linear-gradient(135deg, rgba(123,90,0,0.08), rgba(212,160,23,0.12));">
+                        {{ $service['icon'] }}
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-navy mb-3 group-hover:text-gold transition-colors">
+                        {{ $service['title'] }}
+                    </h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-5">{{ $service['desc'] }}</p>
+                    <ul class="space-y-2">
+                        @foreach($service['features'] as $feature)
+                            <li class="flex items-center gap-2 text-sm text-gray-600">
+                                <svg class="w-4 h-4 flex-shrink-0" style="color:#B8860B;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ $feature }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- ═══════════════════════════════════════════
      FEATURED CATEGORIES
 ═══════════════════════════════════════════ --}}
@@ -398,82 +474,6 @@
     </div>
 </section>
 @endif
-
-
-{{-- ═══════════════════════════════════════════
-     SERVICES SECTION
-═══════════════════════════════════════════ --}}
-<section class="py-24" style="background: linear-gradient(135deg, #F8FAFC, #FFF8E7, #F8FAFC);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color:#B8860B;">What We Do</p>
-            <h2 class="section-title">Our Photography Services</h2>
-            <div class="gold-divider"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach([
-                [
-                    'icon' => '💍', 
-                    'title' => 'Wedding Photography', 
-                    'desc' => 'Complete wedding day coverage capturing every precious moment from ceremony to reception.',
-                    'features' => ['Full day coverage', 'Edited HD photos', 'Online gallery']
-                ],
-                [
-                    'icon' => '👫', 
-                    'title' => 'Pre-Wedding Shoots', 
-                    'desc' => 'Romantic pre-wedding sessions at stunning locations to tell your love story.',
-                    'features' => ['Custom locations', '2-3 hour session', 'Multiple outfits']
-                ],
-                [
-                    'icon' => '👨‍👩‍👧', 
-                    'title' => 'Portrait Sessions', 
-                    'desc' => 'Professional portrait photography for individuals, couples, and families.',
-                    'features' => ['Studio & outdoor', 'Professional lighting', 'Quick delivery']
-                ],
-                [
-                    'icon' => '🎭', 
-                    'title' => 'Event Photography', 
-                    'desc' => 'Capturing corporate events, birthdays, and special celebrations beautifully.',
-                    'features' => ['All event types', 'Candid shots', 'Fast turnaround']
-                ],
-                [
-                    'icon' => '🎬', 
-                    'title' => 'Videography', 
-                    'desc' => 'Cinematic wedding films and event videos that you will treasure forever.',
-                    'features' => ['4K video', 'Drone footage', 'Professional editing']
-                ],
-                [
-                    'icon' => '🖼️', 
-                    'title' => 'Photo Products', 
-                    'desc' => 'Premium photo frames, mugs, and personalized gifts with your memories.',
-                    'features' => ['Custom printing', 'Premium quality', 'Gift packaging']
-                ],
-            ] as $service)
-                <div class="bg-white rounded-2xl p-8 shadow-md card-hover border border-gray-100 group">
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform duration-300 group-hover:scale-110"
-                         style="background: linear-gradient(135deg, rgba(123,90,0,0.08), rgba(212,160,23,0.12));">
-                        {{ $service['icon'] }}
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-navy mb-3 group-hover:text-gold transition-colors">
-                        {{ $service['title'] }}
-                    </h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-5">{{ $service['desc'] }}</p>
-                    <ul class="space-y-2">
-                        @foreach($service['features'] as $feature)
-                            <li class="flex items-center gap-2 text-sm text-gray-600">
-                                <svg class="w-4 h-4 flex-shrink-0" style="color:#B8860B;" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $feature }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
 
 
 {{-- ═══════════════════════════════════════════

@@ -1,20 +1,167 @@
 {{-- resources/views/components/navbar.blade.php --}}
 <style>
-    /* ✅ Hamburger — Mobile Only */
+    /* ── Base nav link style ──────────────────────────── */
+    .nav-link {
+        position: relative;
+        text-decoration: none;
+        padding: 0.55rem 1.1rem;
+        border-radius: 9999px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #0F172A;
+        letter-spacing: 0.01em;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+    }
+
+    /* Hover state */
+    .nav-link:hover {
+        color: #B8860B;
+        background: rgba(184, 134, 11, 0.07);
+    }
+
+    /* Active state — gold filled pill */
+    .nav-link.active {
+        font-weight: 700;
+        color: #7B5A00;
+        background: linear-gradient(135deg,
+            rgba(123,90,0,0.10),
+            rgba(212,160,23,0.14));
+        box-shadow: 0 2px 10px rgba(184,134,11,0.12);
+    }
+
+    .nav-link.active:hover {
+        color: #7B5A00;
+        background: linear-gradient(135deg,
+            rgba(123,90,0,0.14),
+            rgba(212,160,23,0.18));
+    }
+
+    /* Animated underline bar on hover (non-active) */
+    .nav-link:not(.active)::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 60%;
+        height: 2px;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, #7B5A00, #D4A017);
+        transition: transform 0.25s ease;
+    }
+
+    .nav-link:not(.active):hover::after {
+        transform: translateX(-50%) scaleX(1);
+    }
+
+    /* ── Track Order pill ─────────────────────────────── */
+    .nav-track {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1.15rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        transition: all 0.25s ease;
+        color: #B8860B;
+        border: 1.5px solid rgba(184,134,11,0.35);
+        background: rgba(184,134,11,0.05);
+        white-space: nowrap;
+    }
+
+    .nav-track:hover,
+    .nav-track.active {
+        background: linear-gradient(135deg, #7B5A00, #D4A017);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 4px 14px rgba(184,134,11,0.35);
+        transform: translateY(-1px);
+    }
+
+    /* ── Cart icon button ─────────────────────────────── */
+    .nav-cart {
+        position: relative;
+        padding: 0.55rem;
+        border-radius: 9999px;
+        color: #0F172A;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-cart:hover {
+        color: #B8860B;
+        background: rgba(184,134,11,0.07);
+        transform: translateY(-1px);
+    }
+
+    /* ── Book Now button ──────────────────────────────── */
+    .nav-book {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.575rem 1.375rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        letter-spacing: 0.015em;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #7B5A00, #D4A017, #B8860B);
+        background-size: 200% 200%;
+        box-shadow: 0 4px 18px rgba(184,134,11,0.38);
+        white-space: nowrap;
+    }
+
+    .nav-book:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 8px 28px rgba(212,160,23,0.52);
+    }
+
+    .nav-book:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    /* ── Admin pill ───────────────────────────────────── */
+    .nav-admin {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #B8860B;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 1.5px solid rgba(184,134,11,0.35);
+        background: rgba(184,134,11,0.05);
+    }
+
+    .nav-admin:hover {
+        background: rgba(184,134,11,0.12);
+        transform: translateY(-1px);
+    }
+
+    /* ── Hamburger: mobile only ───────────────────────── */
     #hamburgerBtn {
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    /* Hide on tablet and desktop */
     @media (min-width: 1024px) {
-        #hamburgerBtn {
-            display: none !important;
-        }
+        #hamburgerBtn { display: none !important; }
     }
 
-    /* ✅ Desktop Nav — Show on lg+ */
+    /* ── Desktop nav: lg+ only ────────────────────────── */
     #desktopNav {
         display: none;
     }
@@ -23,11 +170,11 @@
         #desktopNav {
             display: flex;
             align-items: center;
-            gap: 0.125rem;
+            gap: 0.2rem;          /* gap between each nav link */
         }
     }
 
-    /* ✅ Desktop Right Buttons — Show on lg+ */
+    /* ── Desktop actions: lg+ only ───────────────────── */
     #desktopActions {
         display: none;
     }
@@ -36,38 +183,64 @@
         #desktopActions {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.625rem;
         }
     }
 
-    /* ✅ Mobile Menu — Hidden by default */
-    #mobileMenu {
-        display: none;
-    }
+    /* ── Mobile menu ──────────────────────────────────── */
+    #mobileMenu { display: none; }
 
     @media (max-width: 1023px) {
-        #mobileMenu.is-open {
-            display: block;
-        }
+        #mobileMenu.is-open { display: block; }
+    }
+
+    /* ── Mobile nav links ─────────────────────────────── */
+    .mobile-nav-link {
+        display: block;
+        padding: 0.8rem 1rem;
+        border-radius: 0.875rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        color: #0F172A;
+        background: transparent;
+        transition: all 0.2s ease;
+        letter-spacing: 0.01em;
+    }
+
+    .mobile-nav-link:hover {
+        background: rgba(184,134,11,0.07);
+        color: #B8860B;
+        padding-left: 1.375rem;
+    }
+
+    .mobile-nav-link.active {
+        font-weight: 700;
+        color: #B8860B;
+        background: rgba(184,134,11,0.09);
     }
 </style>
 
 <nav x-data="{ open: false, scrolled: false }"
      @scroll.window="scrolled = (window.scrollY > 20)"
      :style="scrolled
-        ? 'background:rgba(255,255,255,0.97); box-shadow:0 4px 20px rgba(0,0,0,0.08); backdrop-filter:blur(12px);'
+        ? 'background:rgba(255,255,255,0.97); box-shadow:0 4px 24px rgba(0,0,0,0.09); backdrop-filter:blur(14px);'
         : 'background:white;'"
      style="position:sticky; top:0; z-index:50; transition:all 0.3s ease;
-            border-bottom:1px solid rgba(184,134,11,0.15);">
+            border-bottom:1px solid rgba(184,134,11,0.13);">
 
-    <div style="max-width:80rem; margin:0 auto; padding:0 1rem;">
-        <div style="display:flex; align-items:center; justify-content:space-between; height:5rem;">
+    <div style="width:100%; padding:0 3rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between;
+                    height:5.5rem;">
 
-            {{-- ── Logo ── --}}
+            {{-- ── Logo ─────────────────────────────── --}}
             <a href="{{ route('home') }}"
-               style="text-decoration:none; flex-shrink:0;">
+               style="text-decoration:none; flex-shrink:0;
+                      transition:transform 0.25s ease;"
+               onmouseover="this.style.transform='scale(1.03)'"
+               onmouseout="this.style.transform='scale(1)'">
                 <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"
-                     style="width:120px; height:60px;" fill="none">
+                     style="width:140px; height:70px;" fill="none">
                     <defs>
                         <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%"   stop-color="#7B5A00"/>
@@ -104,7 +277,7 @@
                 </svg>
             </a>
 
-            {{-- ✅ Desktop Nav Links (Hidden on mobile) --}}
+            {{-- ── Desktop Nav Links ───────────────── --}}
             <div id="desktopNav">
                 @php
                     $navLinks = [
@@ -121,134 +294,85 @@
                 @foreach($navLinks as $link)
                     @php $isActive = request()->routeIs($link['route']); @endphp
                     <a href="{{ route($link['route']) }}"
-                       style="text-decoration:none;
-                              padding:0.5rem 0.875rem;
-                              border-radius:9999px;
-                              font-size:0.8125rem;
-                              font-weight:{{ $isActive ? '700' : '500' }};
-                              color:{{ $isActive ? '#B8860B' : '#0F172A' }};
-                              background:{{ $isActive ? 'rgba(184,134,11,0.08)' : 'transparent' }};
-                              transition:all 0.2s ease;"
-                       onmouseover="this.style.color='#B8860B';
-                                    this.style.background='rgba(184,134,11,0.06)'"
-                       onmouseout="this.style.color='{{ $isActive ? '#B8860B' : '#0F172A' }}';
-                                   this.style.background='{{ $isActive ? 'rgba(184,134,11,0.08)' : 'transparent' }}'">
+                       class="nav-link {{ $isActive ? 'active' : '' }}">
                         {{ $link['name'] }}
                     </a>
                 @endforeach
 
-                {{-- ✅ Track Order --}}
+                {{-- Track Order --}}
                 @php $isTrack = request()->routeIs('order.track*'); @endphp
                 <a href="{{ route('order.track') }}"
-                   style="text-decoration:none;
-                          display:inline-flex; align-items:center; gap:0.375rem;
-                          padding:0.4rem 0.875rem;
-                          border-radius:9999px;
-                          font-size:0.8125rem;
-                          font-weight:600;
-                          transition:all 0.2s ease;
-                          {{ $isTrack
-                              ? 'background:linear-gradient(135deg,#7B5A00,#D4A017); color:white;'
-                              : 'color:#B8860B; border:1.5px solid rgba(184,134,11,0.4); background:rgba(184,134,11,0.04);' }}"
-                   onmouseover="this.style.background='linear-gradient(135deg,#7B5A00,#D4A017)';
-                                this.style.color='white';
-                                this.style.borderColor='transparent'"
-                   onmouseout="this.style.background='{{ $isTrack ? 'linear-gradient(135deg,#7B5A00,#D4A017)' : 'rgba(184,134,11,0.04)' }}';
-                               this.style.color='{{ $isTrack ? 'white' : '#B8860B' }}';
-                               this.style.borderColor='{{ $isTrack ? 'transparent' : 'rgba(184,134,11,0.4)' }}'">
+                   class="nav-track {{ $isTrack ? 'active' : '' }}"
+                   style="margin-left:0.35rem;">
                     🔍 Track Order
                 </a>
             </div>
 
-            {{-- ✅ Desktop Action Buttons (Hidden on mobile) --}}
+            {{-- ── Desktop Action Buttons ──────────── --}}
             <div id="desktopActions">
 
                 {{-- Cart --}}
                 @php $cartCount = collect(session('cart', []))->sum('quantity'); @endphp
-                <a href="{{ route('cart.index') }}"
-                   style="position:relative; padding:0.5rem; border-radius:9999px;
-                          color:#0F172A; text-decoration:none; transition:all 0.2s;
-                          display:flex; align-items:center; justify-content:center;"
-                   onmouseover="this.style.color='#B8860B';
-                                this.style.background='rgba(184,134,11,0.06)'"
-                   onmouseout="this.style.color='#0F172A';
-                               this.style.background='transparent'">
-                    <svg style="width:1.375rem; height:1.375rem;"
+                <a href="{{ route('cart.index') }}" class="nav-cart">
+                    <svg style="width:1.45rem; height:1.45rem;"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4
+                                 5M7 13l-2.293 2.293c-.63.63-.184
+                                 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2
+                                 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                     @if($cartCount > 0)
-                        <span style="position:absolute; top:-0.25rem; right:-0.25rem;
-                                     width:1.125rem; height:1.125rem; font-size:0.65rem;
+                        <span style="position:absolute; top:-0.2rem; right:-0.2rem;
+                                     width:1.15rem; height:1.15rem; font-size:0.65rem;
                                      color:white; border-radius:9999px; font-weight:700;
                                      display:flex; align-items:center; justify-content:center;
-                                     background:linear-gradient(135deg,#B8860B,#D4A017);">
+                                     background:linear-gradient(135deg,#B8860B,#D4A017);
+                                     box-shadow:0 2px 6px rgba(184,134,11,0.4);">
                             {{ $cartCount }}
                         </span>
                     @endif
                 </a>
 
                 {{-- Book Now --}}
-                <a href="{{ route('contact') }}"
-                   style="display:inline-flex; align-items:center; gap:0.375rem;
-                          padding:0.5rem 1.25rem; border-radius:9999px;
-                          font-weight:600; font-size:0.8125rem; color:white;
-                          text-decoration:none; transition:all 0.3s ease;
-                          background:linear-gradient(135deg,#7B5A00,#D4A017,#B8860B);
-                          box-shadow:0 4px 15px rgba(184,134,11,0.35);"
-                   onmouseover="this.style.transform='scale(1.05)';
-                                this.style.boxShadow='0 8px 25px rgba(184,134,11,0.5)'"
-                   onmouseout="this.style.transform='scale(1)';
-                               this.style.boxShadow='0 4px 15px rgba(184,134,11,0.35)'">
+                <a href="{{ route('contact') }}" class="nav-book">
                     📅 Book Now
                 </a>
 
-                {{-- Admin (Logged in only) --}}
+                {{-- Admin --}}
                 @auth
-                    <a href="{{ route('admin.dashboard') }}"
-                       style="display:inline-flex; align-items:center; gap:0.375rem;
-                              padding:0.5rem 1rem; border-radius:9999px;
-                              font-weight:600; font-size:0.75rem; color:#B8860B;
-                              text-decoration:none; transition:all 0.2s ease;
-                              border:1.5px solid rgba(184,134,11,0.4);
-                              background:rgba(184,134,11,0.05);"
-                       onmouseover="this.style.background='rgba(184,134,11,0.12)'"
-                       onmouseout="this.style.background='rgba(184,134,11,0.05)'">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-admin">
                         ⚙️ Admin
                     </a>
                 @endauth
             </div>
 
-            {{-- ✅ Hamburger Button (Mobile ONLY) --}}
+            {{-- ── Hamburger (Mobile) ──────────────── --}}
             <button id="hamburgerBtn"
                     @click="open = !open"
                     style="background:none; border:none; cursor:pointer;
-                           padding:0.5rem; color:#0F172A; border-radius:0.5rem;
+                           padding:0.5rem; color:#0F172A; border-radius:0.75rem;
                            transition:all 0.2s;"
-                    onmouseover="this.style.background='rgba(184,134,11,0.08)'"
+                    onmouseover="this.style.background='rgba(184,134,11,0.09)'"
                     onmouseout="this.style.background='none'">
-
-                {{-- Hamburger Icon (3 lines) --}}
                 <svg x-show="!open"
-                     style="width:1.625rem; height:1.625rem;"
+                     style="width:1.75rem; height:1.75rem;"
                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4 6h16M4 12h16M4 18h16"/>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
-
-                {{-- Close Icon (X) --}}
                 <svg x-show="open"
-                     style="width:1.625rem; height:1.625rem;"
+                     style="width:1.75rem; height:1.75rem;"
                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"/>
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
         </div>
     </div>
 
-    {{-- ✅ Mobile Menu (Only shows on mobile when open) --}}
+    {{-- ── Mobile Menu ─────────────────────────────────── --}}
     <div id="mobileMenu"
          :class="open ? 'is-open' : ''"
          x-show="open"
@@ -260,23 +384,14 @@
          x-transition:leave-end="opacity-0 -translate-y-2"
          style="background:white;
                 border-top:1px solid rgba(184,134,11,0.12);
-                padding:1rem 1rem 1.25rem;">
+                padding:1.25rem 1.25rem 1.5rem;">
 
         {{-- Mobile Nav Links --}}
-        <div style="display:flex; flex-direction:column; gap:0.25rem; margin-bottom:1rem;">
+        <div style="display:flex; flex-direction:column; gap:0.2rem; margin-bottom:1rem;">
             @foreach($navLinks as $link)
                 @php $isActive = request()->routeIs($link['route']); @endphp
                 <a href="{{ route($link['route']) }}"
-                   style="display:block; padding:0.75rem 1rem; border-radius:0.75rem;
-                          font-size:0.9375rem; font-weight:{{ $isActive ? '700' : '500' }};
-                          text-decoration:none;
-                          color:{{ $isActive ? '#B8860B' : '#0F172A' }};
-                          background:{{ $isActive ? 'rgba(184,134,11,0.08)' : 'transparent' }};
-                          transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(184,134,11,0.06)';
-                                this.style.color='#B8860B'"
-                   onmouseout="this.style.background='{{ $isActive ? 'rgba(184,134,11,0.08)' : 'transparent' }}';
-                               this.style.color='{{ $isActive ? '#B8860B' : '#0F172A' }}'">
+                   class="mobile-nav-link {{ $isActive ? 'active' : '' }}">
                     {{ $link['name'] }}
                 </a>
             @endforeach
@@ -284,51 +399,56 @@
 
         {{-- Track Order Card --}}
         <a href="{{ route('order.track') }}"
-           style="display:flex; align-items:center; gap:0.75rem;
-                  padding:1rem; border-radius:1rem; margin-bottom:1rem;
+           style="display:flex; align-items:center; gap:0.875rem;
+                  padding:1rem 1.125rem; border-radius:1rem; margin-bottom:1rem;
                   text-decoration:none; transition:all 0.2s;
                   background:linear-gradient(135deg,rgba(123,90,0,0.06),rgba(212,160,23,0.1));
-                  border:1.5px solid rgba(184,134,11,0.25);"
-           onmouseover="this.style.background='linear-gradient(135deg,rgba(123,90,0,0.1),rgba(212,160,23,0.15))'"
+                  border:1.5px solid rgba(184,134,11,0.22);"
+           onmouseover="this.style.background='linear-gradient(135deg,rgba(123,90,0,0.10),rgba(212,160,23,0.15))'"
            onmouseout="this.style.background='linear-gradient(135deg,rgba(123,90,0,0.06),rgba(212,160,23,0.1))'">
-            <div style="width:2.5rem; height:2.5rem; border-radius:0.75rem; flex-shrink:0;
+            <div style="width:2.75rem; height:2.75rem; border-radius:0.875rem; flex-shrink:0;
                         display:flex; align-items:center; justify-content:center;
-                        font-size:1.25rem;
+                        font-size:1.3rem;
                         background:linear-gradient(135deg,rgba(123,90,0,0.1),rgba(212,160,23,0.15));">
                 🔍
             </div>
             <div>
-                <p style="font-weight:700; color:#0F172A; font-size:0.9375rem; margin:0;">
+                <p style="font-weight:700; color:#0F172A; font-size:1rem; margin:0;">
                     Track My Order
                 </p>
-                <p style="font-size:0.75rem; color:#B8860B; margin:0;">
+                <p style="font-size:0.8rem; color:#B8860B; margin:0.1rem 0 0;">
                     Check your order status
                 </p>
             </div>
-            <svg style="width:1rem; height:1rem; color:#B8860B; margin-left:auto;"
+            <svg style="width:1rem; height:1rem; color:#B8860B; margin-left:auto; flex-shrink:0;"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 5l7 7-7 7"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
         </a>
 
         {{-- Mobile Action Buttons --}}
-        <div style="display:flex; flex-direction:column; gap:0.625rem;
-                    padding-top:0.75rem;
+        <div style="display:flex; flex-direction:column; gap:0.7rem;
+                    padding-top:0.875rem;
                     border-top:1px solid rgba(184,134,11,0.1);">
 
             {{-- Cart --}}
             <a href="{{ route('cart.index') }}"
                style="display:flex; align-items:center; justify-content:center;
-                      gap:0.5rem; padding:0.875rem; border-radius:0.875rem;
-                      text-decoration:none; font-weight:600; font-size:0.9375rem;
-                      background:rgba(184,134,11,0.08); color:#B8860B;">
+                      gap:0.5rem; padding:0.9rem; border-radius:0.875rem;
+                      text-decoration:none; font-weight:600; font-size:1rem;
+                      letter-spacing:0.01em;
+                      background:rgba(184,134,11,0.08); color:#B8860B;
+                      transition:all 0.2s;"
+               onmouseover="this.style.background='rgba(184,134,11,0.13)'"
+               onmouseout="this.style.background='rgba(184,134,11,0.08)'">
                 🛒 Cart
                 @if($cartCount > 0)
-                    <span style="width:1.375rem; height:1.375rem; border-radius:9999px;
+                    <span style="width:1.5rem; height:1.5rem; border-radius:9999px;
                                  display:flex; align-items:center; justify-content:center;
                                  font-size:0.7rem; font-weight:700; color:white;
-                                 background:linear-gradient(135deg,#B8860B,#D4A017);">
+                                 background:linear-gradient(135deg,#B8860B,#D4A017);
+                                 box-shadow:0 2px 6px rgba(184,134,11,0.35);">
                         {{ $cartCount }}
                     </span>
                 @endif
@@ -337,25 +457,16 @@
             {{-- Book Now --}}
             <a href="{{ route('contact') }}"
                style="display:flex; align-items:center; justify-content:center;
-                      gap:0.5rem; padding:0.875rem; border-radius:0.875rem;
-                      text-decoration:none; font-weight:700; font-size:0.9375rem;
-                      color:white;
+                      gap:0.5rem; padding:0.9rem; border-radius:0.875rem;
+                      text-decoration:none; font-weight:700; font-size:1rem;
+                      letter-spacing:0.015em; color:white;
                       background:linear-gradient(135deg,#7B5A00,#D4A017,#B8860B);
-                      box-shadow:0 4px 15px rgba(184,134,11,0.3);">
+                      box-shadow:0 4px 18px rgba(184,134,11,0.32);
+                      transition:all 0.2s;"
+               onmouseover="this.style.boxShadow='0 6px 24px rgba(184,134,11,0.45)'"
+               onmouseout="this.style.boxShadow='0 4px 18px rgba(184,134,11,0.32)'">
                 📅 Book a Session
             </a>
-
-            {{-- Admin --}}
-            @auth
-                <a href="{{ route('admin.dashboard') }}"
-                   style="display:flex; align-items:center; justify-content:center;
-                          gap:0.5rem; padding:0.875rem; border-radius:0.875rem;
-                          text-decoration:none; font-weight:600; font-size:0.875rem;
-                          color:#0F172A; border:1.5px solid rgba(184,134,11,0.25);
-                          background:rgba(184,134,11,0.04);">
-                    ⚙️ Admin Panel
-                </a>
-            @endauth
         </div>
     </div>
 </nav>
